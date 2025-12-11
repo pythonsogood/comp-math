@@ -7,8 +7,7 @@ def false_position(f: Callable[[float], float], a: float, b: float, tol: float =
 	fb = f(b)
 
 	if fa * fb >= 0:
-		# raise ValueError("f(a) * f(b) must be less than 0!")
-		return None
+		raise ValueError("f(a) * f(b) must be less than 0!")
 
 	for n in range(nmax):
 		c = (a * fb - b * fa) / (fb - fa)
