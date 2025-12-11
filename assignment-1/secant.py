@@ -14,6 +14,7 @@ def secant(f: Callable[[float], float], x0: float, x1: float, tol: float = 0.001
 		fn_next = f(xn_next)
 
 		if abs(fn_next) < tol:
+			print(n)
 			return xn_next
 
 		xn_prev = xn
@@ -36,7 +37,7 @@ def main() -> None:
 	def func3(x: float) -> float:
 		return -math.sqrt(math.exp(x))
 
-	print(secant(func, 2, 3, 10 ** (-5)))
+	print(secant(func2, 2, 3, 0.001, 10000))
 
 if __name__ == "__main__":
 	main()

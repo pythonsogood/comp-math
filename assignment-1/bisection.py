@@ -7,6 +7,7 @@ def bisection(f: Callable[[float], float], a: float, b: float, tol: float = 0.00
 	fc = f(c)
 
 	if abs(fc) < tol or i > nmax:
+		print(i)
 		return c
 
 	fa = f(a)
@@ -31,7 +32,7 @@ def main() -> None:
 	def func3(x: float) -> float:
 		return -math.sqrt(math.exp(x))
 
-	print(bisection(func, 1, 2, 0.001, 10000))
+	print(bisection(func2, -1, 0, 0.001, 10000))
 
 if __name__ == "__main__":
 	main()

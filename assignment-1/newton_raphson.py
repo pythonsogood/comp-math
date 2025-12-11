@@ -8,6 +8,7 @@ def newton_raphson(f: Callable[[float], float], df: Callable[[float], float], x0
 		x1 = x0 - h
 
 		if abs(h) < tol:
+			print(itr)
 			return x1
 
 		x0 = x1
@@ -29,7 +30,7 @@ def main() -> None:
 	def func3(x: float) -> float:
 		return -math.sqrt(math.exp(x))
 
-	print(newton_raphson(func, func_prime, 2, 10 ** (-6)))
+	print(newton_raphson(func2, func2_prime, 2, 0.001, 10000))
 
 if __name__ == "__main__":
 	main()

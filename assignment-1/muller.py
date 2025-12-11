@@ -38,6 +38,7 @@ def muller(f: Callable[[float], float], x0: float, x1: float, x2: float, tol: fl
 		y3 = f(x3)
 
 		if abs(y3) < tol:
+			print(n)
 			return x3
 
 		x0 = x1
@@ -58,7 +59,7 @@ def main() -> None:
 	def func3(x: float) -> float:
 		return -math.sqrt(math.exp(x))
 
-	print(muller(func, -1, 0, 1))
+	print(muller(func2, -1, 0, 1, 0.001, 10000))
 
 if __name__ == "__main__":
 	main()
