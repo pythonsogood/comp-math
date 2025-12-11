@@ -17,7 +17,6 @@ def main() -> None:
 		return math.cos(x)
 
 	def func2(x: float) -> float:
-		print(x)
 		return math.exp(x) - (x ** 2)
 
 	def func2_prime(x: float) -> float:
