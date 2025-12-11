@@ -44,6 +44,7 @@ def muller(f: Callable[[float], float], x0: float, x1: float, x2: float, tol: fl
 		x1 = x2
 		x2 = x3
 
+
 def main() -> None:
 	def func(x: float) -> float:
 		return math.cos(x) - x * math.exp(x)

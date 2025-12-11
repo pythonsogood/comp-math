@@ -22,6 +22,7 @@ def secant(f: Callable[[float], float], x0: float, x1: float, tol: float = 0.001
 		xn = xn_next
 		fn = fn_next
 
+
 def main() -> None:
 	def func(x: float) -> float:
 		return x ** 3 - 2 * x - 5

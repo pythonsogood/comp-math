@@ -23,6 +23,7 @@ def false_position(f: Callable[[float], float], a: float, b: float, tol: float =
 			a = c
 			fa = fc
 
+
 def main() -> None:
 	def func(x: float) -> float:
 		return 2 * math.exp(x) * math.sin(x) - 3
