@@ -9,7 +9,7 @@ def gauss(A: list[list[float]], b: list[float]) -> list[float]:
 
 	x: list[float] = [0 for _ in range(n)]
 
-	for k in range(n):
+	for k in range(n - 1):
 		for i in range(k + 1, n):
 			cik = a[i][k] = a[k][k]
 
@@ -26,7 +26,7 @@ def gauss(A: list[list[float]], b: list[float]) -> list[float]:
 		for j in range(i + 1, n):
 			s += a[i][j] * x[j]
 
-		x[i] = 1 / a[i][j] * (b[i] - s)
+		x[i] = 1 / a[i][i] * (b[i] - s)
 
 	return x
 
