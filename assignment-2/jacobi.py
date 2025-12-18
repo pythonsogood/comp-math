@@ -1,46 +1,37 @@
-def jacobi(A: list[list[float]], b: list[float]) -> list[float]:
+def jacobi(A: list[list[float]], b: list[float], tol: float = 0.001, nmax: int = 1000) -> list[float] | None:
 	n = len(A)
-	m = 1
+	x = [0.0] * n
 
-	x = [0.0 for _ in range(n)]
-	c = [0.0 for _ in range(n)]
-
-	def part_a():
-		nonlocal m
+	for _ in range(nmax):
+		x_new = [0.0] * n
 
 		for i in range(n):
-			x[i] = c[i] / A[i][i]
-
-		m += 1
-
-		if m <= 1:
-			return part_b()
-
-	def part_b():
-		for i in range(n):
-			c[i] = b[i]
+			s = b[i]
 
 			for j in range(n):
-				if i == j:
+				if j == i:
 					continue
 
-				c[i] -= A[i][j] * x[j]
+				s -= A[i][j] * x[j]
 
-		return part_a()
+			x_new[i] = s / A[i][i]
 
-	part_b()
+		if max(abs(x_new[i] - x[i]) for i in range(n)) <= tol:
+			return x_new
 
-	return x
+		x = x_new
 
 def main() -> None:
 	A1 = [
-		[2, 3],
-		[4, 1],
+		[2, 1, 1],
+		[1, 3, -1],
+		[-1, 1, 2],
 	]
 
 	b1 = [
-		5,
-		11,
+		6,
+		0,
+		3,
 	]
 
 	print(jacobi(A1, b1))

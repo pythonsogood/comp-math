@@ -1,41 +1,43 @@
 from copy import deepcopy
 
 
+def augment(A: list[list[float]], b: list[float]) -> list[list[float]]:
+	return [row + [b[i]] for i, row in enumerate(deepcopy(A))]
+
 def gauss_jordan(A: list[list[float]], b: list[float]) -> list[float]:
 	n = len(A)
 
-	ab = deepcopy(A)
-	ab.append(b)
+	Ab = augment(A, b)
 
 	for k in range(n):
 		p = None
 		p_max = None
 
 		for i in range(k, n):
-			curr_p = abs(A[i][k])
+			curr_p = abs(Ab[i][k])
 
 			if p_max is None or p_max < curr_p:
 				p = i
 				p_max = curr_p
 
 		if p is not None and p != k:
-			ab[p], ab[k] = ab[k], ab[p]
+			Ab[p], Ab[k] = Ab[k], Ab[p]
 
-		pivot = A[k][k]
+		pivot = Ab[k][k]
 
-		for i in range(len(ab[k])):
-			ab[k][i] /= pivot
+		for i in range(len(Ab[k])):
+			Ab[k][i] /= pivot
 
 		for i in range(n):
 			if i == k:
 				continue
 
-			factor = ab[i][k]
+			factor = Ab[i][k]
 
-			for j in range(len(ab[i])):
-				ab[i][j] /= factor * ab[k][j]
+			for j in range(len(Ab[i])):
+				Ab[i][j] -= factor * Ab[k][j]
 
-	return ab[len(ab) - 1]
+	return [Ab[i][-1] for i in range(n)]
 
 def main() -> None:
 	A1 = [

@@ -17,7 +17,7 @@ def cramer(A: list[list[float]], b: list[float]) -> list[float]:
 
 	n = len(A)
 
-	x: list[float] = []
+	x = [0.0] * n
 
 	for i in range(n):
 		Ai = deepcopy(A)
@@ -26,7 +26,7 @@ def cramer(A: list[list[float]], b: list[float]) -> list[float]:
 
 		Di = determinant(Ai)
 
-		x.append(Di / D)
+		x[i] = Di / D
 
 	return x
 

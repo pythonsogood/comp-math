@@ -7,14 +7,14 @@ def gauss(A: list[list[float]], b: list[float]) -> list[float]:
 	a = deepcopy(A)
 	b = deepcopy(b)
 
-	x: list[float] = [0 for _ in range(n)]
+	x = [0.0] * n
 
 	for k in range(n - 1):
 		for i in range(k + 1, n):
 			cik = a[i][k] = a[k][k]
 
 			for j in range(k + 1, n):
- 				a[i][j] -= cik * a[k][j]
+				a[i][j] -= cik * a[k][j]
 
 			b[i] -= cik * b[k]
 
