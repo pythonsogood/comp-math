@@ -7,24 +7,35 @@ def gauss_jordan(A: list[list[float]], b: list[float]) -> list[float]:
 	ab = deepcopy(A)
 	ab.append(b)
 
-	a = deepcopy(A)
-	b = deepcopy(b)
-
-	x: list[float] = [0 for _ in range(n)]
-
 	for k in range(n):
 		p = None
+		p_max = None
 
 		for i in range(k, n):
-			pass
+			curr_p = abs(A[i][k])
+
+			if p_max is None or p_max < curr_p:
+				p = i
+				p_max = curr_p
 
 		if p is not None and p != k:
 			ab[p], ab[k] = ab[k], ab[p]
 
-		pivot = a[k][k]
+		pivot = A[k][k]
 
+		for i in range(len(ab[k])):
+			ab[k][i] /= pivot
 
-	return x
+		for i in range(n):
+			if i == k:
+				continue
+
+			factor = ab[i][k]
+
+			for j in range(len(ab[i])):
+				ab[i][j] /= factor * ab[k][j]
+
+	return ab[len(ab) - 1]
 
 def main() -> None:
 	A1 = [
