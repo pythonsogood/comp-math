@@ -16,7 +16,6 @@ def cramer(A: list[list[float]], b: list[float]) -> list[float]:
 		raise ValueError("det(A) == 0")
 
 	n = len(A)
-	m = len(A[0])
 
 	x: list[float] = []
 
