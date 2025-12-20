@@ -7,7 +7,7 @@ def distance(x: list[float]) -> float:
 def multiply(A: list[list[float]], B: list[list[float]]) -> list[list[float]]:
 	return [[sum(a * b for a, b in zip(rA, cB)) for cB in zip(*B)] for rA in A]
 
-def relaxation(A: list[list[float]], b: list[float], x0: list[float] | None = None, w: float = 1.1, tol: float = 0.001, nmax: int = 1000):
+def relaxation(A: list[list[float]], b: list[float], x0: list[float] | None = None, w: float = 1.1, tol: float = 0.001, nmax: int = 1000) -> tuple[list[float], int]:
 	if not (0 < w < 2):
 		raise ValueError("w must be in range (0, 2)")
 

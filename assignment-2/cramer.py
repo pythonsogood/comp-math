@@ -4,6 +4,14 @@ import numpy as np
 
 
 def determinant(m: list[list[float]]) -> float:
+	"""
+		https://www.geeksforgeeks.org/python/how-to-calculate-the-determinant-of-a-matrix-using-numpy/
+
+		"For large matrices, numpy.linalg.slogdet() is a numerically stable method.
+		It computes the sign and the logarithm of the determinant separately,
+		which helps prevent numerical overflow or underflow when dealing with very large or very small values."
+	"""
+
 	mn = np.array(m)
 	sign, logdet = np.linalg.slogdet(mn)
 
