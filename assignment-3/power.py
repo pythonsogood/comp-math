@@ -1,123 +1,55 @@
-import math
-from typing import overload
-
-import numpy as np
-
 type Vector = list[float]
 type Matrix = list[Vector]
 
-def distance(x: Vector) -> float:
-	return math.sqrt(sum(map(lambda i: i ** 2, x)))
+def normalize_inf(x: Vector) -> Vector:
+	m = max(abs(i) for i in x)
+	return [i / m for i in x]
 
-@overload
-def multiply(A: Matrix, B: Matrix) -> Matrix:
-	...
+def multiply(A: Matrix | Vector, B: Matrix | Vector) -> Matrix:
+	A = to_matrix(A)
+	B = to_matrix(B)
 
-@overload
-def multiply(A: Matrix, B: Vector) -> Vector | float:
-	...
+	return [
+		[
+			sum(
+				A[i][k] * B[k][j] if len(A[i]) > k else 0
+				for k in range(len(B))
+			) for j in range(len(B[i]))
+		] for i in range(len(A))
+	]
 
-@overload
-def multiply(A: Matrix, B: float) -> Matrix:
-	...
+def transpose(x: Matrix | Vector) -> Matrix:
+	x = to_matrix(x)
 
-def multiply(A: Matrix, B: Matrix | Vector | float) -> Matrix | Vector | float:
-	if isinstance(B, (float, int)):
-		return [[B * A[i][j]] for i in range(len(A)) for j in range(len(A[i]))]
-	elif len(B) > 0 and not isinstance(B[0], list):
-		vec = extract_column(multiply(A, [[i] for i in B]), 0)
-
-		if len(A) == 1:
-			return vec[0]
-
-		return vec
-
-	return [[sum(a * b for a, b in zip(rA, cB)) for cB in zip(*B)] for rA in A]
-
-def normalize(x: Vector) -> Vector:
-	dist = distance(x)
-
-	return [i / dist for i in x]
-
-def transpose(x: Matrix | Vector) -> Matrix:  # pyright: ignore[reportRedeclaration]
-	n = len(x)
-
-	if n <= 0:
-		return x  # pyright: ignore[reportReturnType]
-
-	x: Matrix = [[i] for i in x] if not isinstance(x[0], list) else x
-
-	n = len(x)
-
-	m = len(x[0])
-
-	xT = [[0.0] * m for _ in range(n)]
-
-	for i in range(n):
-		for j in range(m):
-			xT[i][j] = x[j][i]
-
-	return xT
-
-def inverse(x: Matrix) -> Matrix:
-	a = np.array(x)
-	return np.linalg.inv(a).tolist()
-
-def divide(a: Matrix, b: Matrix) -> Matrix:
-	return multiply(a, inverse(b))
-
-def add(a: Matrix, b: Matrix) -> Matrix:
-	c = []
-
-	for i in range(len(a)):
-		c.append([])
-
-		for j in range(len(a[i])):
-			c[i].append(a[i][j] + b[i][j])
-
-	return c
+	return [[x[i][j]] for j in range(len(x[0])) for i in range(len(x))]
 
 def extract_column(a: Matrix, n: int) -> Vector:
-	x = []
+	return [row[n] for row in a]
 
-	for i in range(len(a)):
-		x.append(a[i][n])
+def to_matrix(x: Matrix | Vector) -> Matrix:
+	if len(x) <= 0 or isinstance(x[0], list):
+		return x  # pyright: ignore[reportReturnType]
 
-	return x
+	return [[i] for i in x] # pyright: ignore[reportReturnType]
 
-def subtract(a: Matrix, b: Matrix) -> Matrix:
-	c = []
-
-	for i in range(len(a)):
-		c.append([])
-
-		for j in range(len(a[i])):
-			c[i].append(a[i][j] - b[i][j])
-
-	return c
-
-def power_method(A: Matrix, x0: Vector, tol: float = 0.001, nmax: int = 1000) -> float | None:
-	xn = x0
-	lambd_prev = None
+def power_method(A: Matrix, x0: Vector, tol: float = 0.001, nmax: int = 1000) -> tuple[float, Vector] | None:
+	y_prev = extract_column(multiply(A, x0), 0)
+	eigenvalue_prev = None
 
 	for _ in range(nmax):
-		xn = multiply(A, xn)
-		xn = normalize(xn)
+		xn = normalize_inf(y_prev)
+		xnT = extract_column(transpose(xn), 0)
 
-		xnT = transpose(xn)
+		Axn = extract_column(multiply(A, xn), 0)
 
-		Axn = multiply(A, xn)
+		eigenvalue = extract_column(multiply(xnT, Axn), 0)[0] / extract_column(multiply(xnT, xn), 0)[0]
 
-		lambd_numerator: float = multiply(xnT, Axn)
-		lambd_denominator: float = multiply(xnT, xn)
-		lambd = lambd_numerator / lambd_denominator
+		if eigenvalue_prev is not None:
+			if abs(eigenvalue - eigenvalue_prev) < tol:
+				return eigenvalue, normalize_inf(xn)
 
-		if lambd_prev is not None:
-			pass
-
-		lambd_prev = lambd
-
-	return lambd_prev
+		y_prev = Axn
+		eigenvalue_prev = eigenvalue
 
 def main() -> None:
 	A1 = [
