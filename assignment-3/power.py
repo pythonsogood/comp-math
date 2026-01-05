@@ -14,14 +14,14 @@ def multiply(A: Matrix | Vector, B: Matrix | Vector) -> Matrix:
 			sum(
 				A[i][k] * B[k][j] if len(A[i]) > k else 0
 				for k in range(len(B))
-			) for j in range(len(B[i]))
+			) for j in range(len(B[0]))
 		] for i in range(len(A))
 	]
 
 def transpose(x: Matrix | Vector) -> Matrix:
 	x = to_matrix(x)
 
-	return [[x[i][j]] for j in range(len(x[0])) for i in range(len(x))]
+	return [[x[j][i] for j in range(len(x))] for i in range(len(x[0]))]
 
 def extract_column(a: Matrix, n: int) -> Vector:
 	return [row[n] for row in a]

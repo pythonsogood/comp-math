@@ -1,4 +1,7 @@
-def lu_factorization(A: list[list[float]]) -> tuple[list[list[float]], list[list[float]]]:
+type Vector = list[float]
+type Matrix = list[Vector]
+
+def lu_factorization(A: Matrix) -> tuple[Matrix, Matrix]:
 	n = len(A)
 
 	L, U = [[0.0] * n for _ in range(n)], [[0.0] * n for _ in range(n)]
@@ -13,7 +16,7 @@ def lu_factorization(A: list[list[float]]) -> tuple[list[list[float]], list[list
 
 	return L, U
 
-def inverse_lu(A: list[list[float]]) -> list[list[float]]:
+def inverse_lu(A: Matrix) -> Matrix:
 	n = len(A)
 
 	L, U = lu_factorization(A)
