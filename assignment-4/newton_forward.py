@@ -21,7 +21,7 @@ def newton_forward(x_star: float, x: list[float], y: list[float]) -> float:
 
 	for i in range(1, n):
 		y_star += ((u * ui) / math.factorial(i)) * dy[i][0]
-		ui *= (u - i)
+		ui *= u - i
 
 	return y_star
 
