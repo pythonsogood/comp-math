@@ -11,7 +11,7 @@ def runge_kutta_3(f: Callable[[float, float], float], x0: float, y0: float, h: f
 		k2 = f(x + h / 2, y + h / 2 * k1)
 		k3 = f(x + h, y - h * k1 + 2 * h * k2)
 
-		y += h / 2 * (k1 + 4 * k2 + k3)
+		y += h / 6 * (k1 + 4 * k2 + k3)
 		x += h
 
 		if x >= xn:
